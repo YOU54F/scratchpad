@@ -1,0 +1,28 @@
+{
+  "name": "local-aws-testing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "init": "tsc --init",
+    "test": "npm run test:unit && npm run test:it",
+    "test:unit": "jest",
+    "test:it": "jest --config jest.it.config.js",
+    "build": "tsc",
+    "start:offline": "sls offline start"
+  },
+  "author": "YOU54F",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.73",
+    "@types/jest": "^26.0.22",
+    "aws-sdk": "^2.877.0",
+    "axios": "^0.21.1",
+    "jest": "^26.6.3",
+    "serverless": "^2.32.1",
+    "serverless-offline": "^6.9.0",
+    "serverless-plugin-typescript": "^1.1.9",
+    "ts-jest": "^26.5.4",
+    "typescript": "^4.2.3"
+  }
+}

@@ -1,0 +1,82 @@
+service: deno-serverless
+frameworkVersion: "2.35.0"
+
+provider:
+  name: aws
+  runtime: provided.al2
+  stage: dev
+  region: ${env:AWS_DEFAULT_REGION, 'us-east-1'}
+  lambdaHashingVersion: 20201221
+  versionFunctions: false
+
+package:
+  patterns:
+    - '!.deno_dir/gen/file'
+    - '!node_modules'
+    - '!yarn.lock'
+    - '!serverless.yml'
+
+functions:
+  deno:
+    handler: api/welcomedeno.handler
+    layers:
+      - !GetAtt Deno.Outputs.LayerArn
+    memorySize: 128
+    description: welcome to deno
+    events:
+      - http:
+          path: deno/{any+}
+          method: get
+
+  pg:
+    handler: api/connecttopg.handler
+    layers:
+      - !GetAtt Deno.Outputs.LayerArn
+    memorySize: 128
+    description: welcome to deno
+    events:
+      - http:
+          path: pg/{any+}
+          method: get
+    environment:
+      DENO_UNSTABLE: true 
+      PG_USER: ${env:PG_USER}
+      PG_DB  : ${env:PG_DB}
+      PG_PASS: ${env:PG_PASS}
+      PG_HOST: ${env:PG_HOST}
+      PG_PORT: ${env:PG_PORT}
+
+  pg2:
+    handler: api/connecttopg2.handler
+    layers:
+      - !GetAtt Deno.Outputs.LayerArn
+    memorySize: 128
+    description: welcome to deno
+    events:
+      - http:
+          path: pg2/{any+}
+          method: get
+    environment:
+      DENO_UNSTABLE: true 
+      PG_USER: ${env:PG_USER}
+      PG_DB  : ${env:PG_DB}
+      PG_PASS: ${env:PG_PASS}
+      PG_HOST: ${env:PG_HOST}
+      PG_PORT: ${env:PG_PORT}
+
+resources:
+  Transform: AWS::Serverless-2016-10-31
+  Resources:
+    Deno:
+      Type: AWS::Serverless::Application
+      Properties:
+        Location:
+          ApplicationId: arn:aws:serverlessrepo:us-east-1:390065572566:applications/deno
+          SemanticVersion: 1.7.2
+
+plugins:
+  - serverless-scriptable-plugin
+
+custom:
+  scriptHooks:
+    before:package:createDeploymentArtifacts: DENO_DIR=.deno_dir deno cache --unstable api/* && cp -R .deno_dir/gen/file/$PWD/ .deno_dir/LAMBDA_TASK_ROOT

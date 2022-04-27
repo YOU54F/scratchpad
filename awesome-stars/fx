@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "472339496814",
+    "firebase_url": "https://barber-ring.firebaseio.com",
+    "project_id": "barber-ring",
+    "storage_bucket": "barber-ring.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472339496814:android:0b532b3a027b22d1",
+        "android_client_info": {
+          "package_name": "com.barberring.news"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472339496814-rvot4lr71ajs6n6dk8ddhdgpnap6f5do.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.barberring.news",
+            "certificate_hash": "39f658467b7368fa4a71372e44aa9e2b8848e8d7"
+          }
+        },
+        {
+          "client_id": "472339496814-k6gsm0csdiob2oma38dc3ha6madd2eak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCT5ScPVMMDJ2WRTB33v5Z8nqgPqY-tLwk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472339496814-k6gsm0csdiob2oma38dc3ha6madd2eak.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

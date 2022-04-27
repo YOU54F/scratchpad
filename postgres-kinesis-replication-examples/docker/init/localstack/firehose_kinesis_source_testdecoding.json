@@ -1,0 +1,43 @@
+{
+  "DeliveryStreamName": "replication-firehose-kinesis-testdecoding",
+  "DeliveryStreamType": "KinesisStreamAsSource",
+  "KinesisStreamSourceConfiguration": {
+    "KinesisStreamARN": "arn:aws:kinesis:us-east-1:000000000000:stream/replication-stream-testdecoding",
+    "RoleARN": "arn:aws:iam::000000000000:role/super-role"
+  },
+  "ExtendedS3DestinationConfiguration": {
+    "BucketARN": "arn:aws:s3:::replication-bucket-testdecoding",
+    "RoleARN": "arn:aws:iam::000000000000:role/super-role",
+    "Prefix": "firehose/",
+    "CloudWatchLoggingOptions": {
+      "Enabled": false,
+      "LogGroupName": "FirehoseDeliveryStreamLogGroup",
+      "LogStreamName": "FirehoseDeliveryStreamLogStream"
+    },
+    "BufferingHints": {
+      "IntervalInSeconds": 60,
+      "SizeInMBs": 1
+    },
+    "CompressionFormat": "UNCOMPRESSED",
+    "ProcessingConfiguration": {
+      "Enabled": true,
+      "Processors": [
+        {
+          "Type": "Lambda",
+          "Parameters": [
+            {
+              "ParameterName": "LambdaArn",
+              "ParameterValue": "arn:aws:lambda:eu-west-2:000000000000:function:replication-lambda-processor-testdecoding"
+            },
+            { "ParameterName": "NumberOfRetries", "ParameterValue": "3" },
+            {
+              "ParameterName": "BufferIntervalInSeconds",
+              "ParameterValue": "60"
+            },
+            { "ParameterName": "BufferSizeInMBs", "ParameterValue": "1" }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="assets/favicon.jpg" type="image/x-icon">
+    <title>WebTerm</title>
+    <!-- Xterm -->
+    <link rel="stylesheet" href="xterm/xterm.css" />
+    <script src="xterm/xterm.js"></script>
+    <script src="xterm/xterm-addon-fit.js"></script>
+    <!-- V86 -->
+    <script src="assets/libv86.js"></script>
+</head>
+
+<body>
+    <!-- v86 screen if debug is enabled -->
+    <div id="screen">
+        <div style="white-space: pre; font: 14px monospace; line-height: 14px"></div>
+        <canvas style="display: none"></canvas>
+    </div>
+    <!-- Xterm -->
+    <div id="terminal">
+    </div>
+</body>
+
+</html>
