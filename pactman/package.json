@@ -1,6 +1,6 @@
 {
   "name": "pactman",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Search Pact documentation from the terminal",
   "bin": {
     "pactman": "bin/index.js"
