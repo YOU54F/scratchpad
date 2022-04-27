@@ -1,0 +1,38 @@
+language: node_js
+node_js:
+- '12'
+- '8'
+- lts/*
+- node
+os:
+- linux
+matrix:
+  fast_finish: true
+cache: yarn
+env:
+  global:
+  - secure: U2ybS/D9sR2enaT/u5jXBJHrXAInixz8q37scXJVsHGMyp+0eVH+WPLP1iFYfAfNQg9JUlZ5GGBqAmv8vROW1Mw/vlM5WRY3FsVYde/sqA2YqNfQmOhR6UIfuBDeJvVLlMKd+m2dC2dB5AyoxdO5PY58PmpMNORY4fL6P+jQfeFp9ZsIyDv+uMmDbv7jpamlWmbF2rRaoY1fD3uXncnEpgDkcULf5e4Wk29gffnLE/wShdEBEG3+JDiG4Mh6tqmwaaEiHExNLc8T1xMVIht/MoPl8DMG2ZoTzR04ztBlyU+0tIg5DJEsdrwp6WGjSbsAQiIE84+bz/Nr71M0draeWgnOpqBAMVbZFiBcXh6X/5HnTvSs8k+FTEirm9q6VHlHZtB/tBhJfGYioX6raMnSCUWWnOhwK0zG/YDDZIo70TNgQOc8JKMHA480kiNCUl4h7pSsed3entWltSl97VVc8qlu4NeEROE2MrH+LRXrRDeSWwj3Z84A8U/u71/eGigPj81AqLq/9mRoOdoOt/WQo3S4kvWhJaf9Rtn44U7iYC1Lh0AYVD7DANprAC9Z/58BkPhSw/yTqGwnklBCjq5Umw+C+lKPB9ouc5G2aE4n/EY2Vz9fM2ygzsY4wN+SqZ7FXc+VKucWiRF82FRChFkzhXPyTD5Z9/PRnr3hsycXwd0=
+install: yarn install --ignore-engines
+script: npm run-script ci
+before_deploy:
+- npm prune --production
+- tar -czvf slack-mock-typed.tar.gz package.json LICENSE README.md CHANGELOG.md index.js index.d.ts lib/* mocker/*
+- npm run deploy:prepare
+deploy:
+  - provider: releases
+    api_key:
+      secure: MSdEBJeOPCmggAwInDaabk0gKLwyFKxE8DdQfoKwNRcxv74nhE6pR2gXr5lggiIB8mOjjXJuerU6QvC94BPwiDmqm9RkVefgStoEgwKFMblNMP+W6ZYBvSyPxz+1dBTVbEMTXPyOoAHgO+bhfIIvBh9YBGoYH3LVbzE1evgFH8aYv8113GWn1X6v+/lmxGRFCWnfxjSGIKvOMTWkYH+jDYhEnonmERWF7HiXUkDuShZhv/tKOen2rM+NAhc37MCmkbfB/aZWBGLUWb/Yn8V4W940/uCh3f2EUijgaPaWUWNPwDdy/xfUHPW/ys2FfwX9rMtq1Vpj967jPZVm5WP7V1VLqiV+djF/HHzPnntZ6ZidxOuaxI/XtmnrZH/Pd3RK/znAhMRY+ZhmW8hoPGwlYSqLFq6eN0i5ECB2MQy63XCkaI5FbwpTIOdOcaVlD9p5as3LJ4rHh65t+LoiyMtVzAgewI4GYMzFYtEWqA2IyPK8MfOsqtvIADBAM+AxNXrNqt/ONJry6vfJWF0HYjbuupVF5NS5918DVC4u1LqXZEw2sEeDc1LkfalN2Dwlgwaq8yKjvFNByl+s5Upugo2bUQNooRvqJ6kqCZe7r4SIl34evPOr5uTRNKR/9YukpzPV+kcqnmE+21rZEVdvq66v5KIXBzqTM/TBYPwapupk1uI=
+    file: slack-mock-typed.tar.gz
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: YOU54F/slack-mock-typed
+      branch: master
+      node: "8"
+  - provider: script
+    skip_cleanup: true
+    script: ./scripts/publish.sh
+    on:
+      tags: true
+      branch: master
+      node: "8"
