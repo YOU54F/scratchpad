@@ -28,24 +28,27 @@ const doSearch = async ({ appId, apiKey, indexName }, query) => {
     return results
   } catch (error) {
     console.log(
-      'We are sorry, an error occurred, trying visiting the website instead https://docs.pact.io/',
+      'We are sorry, an error occurred, trying visiting the website instead https://docs.pactflow.io/',
     )
   }
 }
 
-const initSearch = () => {
-  const appId = process.env.APPLICATION_ID
-  const apiKey = process.env.API_KEY
-  const indexName = process.env.INDEX_NAME
-
-  const clientOptions = {
-    appId,
-    apiKey,
-    indexName,
-  }
-
+const initSearch = (type) => {
   return function searchByQuery(query) {
-    return doSearch(clientOptions, query)
+    return doSearch(
+      type === 'pactflow'
+        ? {
+            appId: 'LY8MHW6MWQ',
+            apiKey: '6d5a0494675f3e1d9ea2b3483a38f44b',
+            indexName: 'Pactflow',
+          }
+        : {
+            appId: '6CMS0LVNYE',
+            apiKey: '6a92d95a6d82b7d09cd6ccb1ef485f03',
+            indexName: 'pact',
+          },
+      query,
+    )
   }
 }
 

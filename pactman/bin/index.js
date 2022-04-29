@@ -4,10 +4,6 @@
 
 const path = require('path')
 
-require('dotenv').config({
-  path: path.resolve(__dirname, '..', '.env'),
-})
-
 const updateNotifier = require('update-notifier')
 const pkg = require(path.join('..', 'package.json'))
 updateNotifier({ pkg }).notify()
@@ -16,8 +12,6 @@ const open = require('open')
 const chalk = require('chalk')
 const prompts = require('prompts')
 const { initSearch } = require('../src/search')
-
-const search = initSearch()
 
 // returns either content or level highlight
 const getHighlightText = (hit) => {
@@ -70,38 +64,89 @@ const getTitle = (hash) => {
   return result
 }
 
-const options = {
-  type: 'autocomplete',
-  name: 'value',
-  message: '🔍 Search Pact Docs',
-  choices: [],
-  suggest(input, choices) {
-    choices.length = 0
-    if (!input.length) {
-      return Promise.resolve([])
-    }
+const options = [
+  {
+    type: 'select',
+    name: 'selection',
+    message: '🔍 Select which docs you want to search',
+    choices: ['Pact', 'Pactflow'],
+  },
+  {
+    type: (prev) => (prev === 0 ? 'autocomplete' : null),
+    name: 'value',
+    message: '🔍 Search Pact Docs',
+    choices: [],
+    suggest(input, choices) {
+  
 
-    return search(input).then((results) => {
-      if (!results.nbHits) {
-        return []
+      const search = initSearch('pact')
+
+      choices.length = 0
+      if (!input.length) {
+        return Promise.resolve([])
       }
 
-      return results.hits.map((hit) => {
-        choices.push({
-          title: hit.url,
-        })
-        const highlight = getHighlight(hit)
-        const url = new URL(hit.url)
-        const title = highlight ? highlight : getTitle(url.hash)
-        return {
-          title,
-          value: encodeURI(hit.url),
-          description: url.pathname,
+      return search(input).then((results) => {
+        if (!results.nbHits) {
+          return []
         }
+
+        return results.hits.map((hit) => {
+          choices.push({
+            title: hit.url,
+          })
+          const highlight = getHighlight(hit)
+          const url = new URL(hit.url)
+          const title = highlight ? highlight : getTitle(url.hash)
+          return {
+            title,
+            value: encodeURI(hit.url),
+            description: url.pathname,
+          }
+        })
       })
-    })
+    },
   },
-}
+  {
+    type: (prev) => (prev === 1 ? 'autocomplete' : null),
+    name: 'value',
+    message: '🔍 Search Pactflow Docs',
+    choices: [],
+    suggest(input, choices) {
+      require('dotenv').config({
+        path: path.resolve(__dirname, '..', 'pactflow.env'),
+      })
+
+
+      const search = initSearch('pactflow')
+
+      choices.length = 0
+      if (!input.length) {
+        return Promise.resolve([])
+      }
+
+      return search(input).then((results) => {
+        if (!results.nbHits) {
+          return []
+        }
+
+        return results.hits.map((hit) => {
+          choices.push({
+            title: hit.url,
+          })
+          const highlight = getHighlight(hit)
+          const url = new URL(hit.url)
+          const title = highlight ? highlight : getTitle(url.hash)
+          return {
+            title,
+            value: encodeURI(hit.url),
+            description: url.pathname,
+          }
+        })
+      })
+    },
+  },
+]
 const ask = async () => {
   const response = await prompts(options)
 
