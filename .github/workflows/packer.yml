@@ -1,0 +1,19 @@
+name: test packer
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+#       - uses: actions/checkout@v3
+
+      # Runs a set of commands using the runners shell
+      - name: pack ruby packer
+        run: |
+          git clone --depth 1 https://github.com/pmq20/ruby-packer
+          cd ruby-packer
+          rubyc bin/rubyc
+          ./a.out
