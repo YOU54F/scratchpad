@@ -1,0 +1,49 @@
+service: abc
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-localstack
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  # profile: slsoffline
+  iam:
+    role:
+      statements:
+        # Allow functions to list all buckets
+        - Effect: Allow
+          Action: "s3:*"
+          Resource: "*"
+functions:
+  func_1:
+    handler: transform.handler
+    timeout: 15
+
+custom:
+  serverless-offline:
+    debug: true
+  localstack:
+    stages:
+      # list of stages for which the plugin should be enabled
+      - dev
+      - local
+    # host: http://0.0.0.0 # optional - LocalStack host to connect to
+    # edgePort: 4566 # optional - LocalStack edge port to connect to
+    autostart: true # optional - start LocalStack in Docker on Serverless deploy
+    debug: true
+    # docker: false
+    endpoints:
+      # This section is optional - can be used for customizing the target endpoints
+      S3: http://0.0.0.0:4572
+      # DynamoDB: http://0.0.0.0:4570
+      # CloudFormation: http://0.0.0.0:4581
+      # Elasticsearch: http://0.0.0.0:4571
+      # ES: http://0.0.0.0:4578
+      # SNS: http://0.0.0.0:4575
+      # SQS: http://0.0.0.0:4576
+      Lambda: http://0.0.0.0:4574
+      Kinesis: http://0.0.0.0:4568

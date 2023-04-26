@@ -1,0 +1,30 @@
+I, [2022-10-28T04:20:05.066288 #95511]  INFO -- : Cleared interactions
+I, [2022-10-28T04:20:05.071558 #95511]  INFO -- : Registered expected interaction GET /users/UserA
+D, [2022-10-28T04:20:05.071808 #95511] DEBUG -- : {
+  "description": "a request for UserA",
+  "providerState": "UserA exists and is not an administrator",
+  "request": {
+    "method": "get",
+    "path": "/users/UserA"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+    },
+    "body": {
+      "foo": "bar"
+    }
+  },
+  "metadata": null
+}
+W, [2022-10-28T04:20:05.075793 #95511]  WARN -- : Verifying - actual interactions do not match expected interactions. 
+Missing requests:
+	GET /users/UserA
+
+
+
+W, [2022-10-28T04:20:05.075816 #95511]  WARN -- : Missing requests:
+	GET /users/UserA
+
+
+

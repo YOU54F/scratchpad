@@ -27,7 +27,7 @@
           "Parameters": [
             {
               "ParameterName": "LambdaArn",
-              "ParameterValue": "arn:aws:lambda:eu-west-2:000000000000:function:replication-lambda-processor-wal2json"
+              "ParameterValue": "arn:aws:lambda:us-east-1:000000000000:function:abc-local-func_1"
             },
             { "ParameterName": "NumberOfRetries", "ParameterValue": "3" },
             {

@@ -1,0 +1,67 @@
+{
+  "consumer": {
+    "name": "pactflow-example-consumer-python-sns"
+  },
+  "provider": {
+    "name": "pactflow-example-provider-js-sns"
+  },
+  "messages": [
+    {
+      "description": "a product event update",
+      "providerStates": [
+
+      ],
+      "contents": {
+        "xid": "some-uuid-1234-5678",
+        "change": [
+          [
+            "some-uuid-1234-5678"
+          ]
+        ],
+        "event": "UPDATED"
+      },
+      "matchingRules": {
+        "body": {
+          "$.xid": {
+            "matchers": [
+              {
+                "match": "type"
+              }
+            ]
+          },
+          "$.change": {
+            "matchers": [
+              {
+                "min": 1
+              }
+            ]
+          },
+          "$.change[*].*": {
+            "matchers": [
+              {
+                "match": "type"
+              }
+            ]
+          },
+          "$.event": {
+            "matchers": [
+              {
+                "match": "regex",
+                "regex": "^(CREATED|UPDATED|DELETED)$"
+              }
+            ]
+          }
+        }
+      },
+      "metaData": {
+        "Content-Type": "application/json",
+        "topic": "products"
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  }
+}
