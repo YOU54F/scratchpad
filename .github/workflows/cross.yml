@@ -3,45 +3,19 @@ name: CI
 on: [push]
 
 jobs:
-  test:
+  pact_mock_server_cli:
     runs-on: ${{ matrix.os.host }}
     strategy:
       fail-fast: false
       matrix:
         os:
-          - name: freebsd
-            architecture: x86-64
-            version: '13.1'
-            host: macos-12
-
-          - name: openbsd
-            architecture: x86-64
-            version: '7.3'
-            host: macos-12
-
-          # - name: openbsd
-          #   architecture: arm64
-          #   version: '7.3'
-          #   host: macos-12
-
-          # - name: openbsd
-          #   architecture: x86-64
-          #   version: '7.3'
-          #   host: ubuntu-latest
-
-          - name: openbsd
-            architecture: arm64
-            version: '7.3'
-            host: ubuntu-latest
-
           - name: netbsd
             architecture: x86-64
             version: '9.2'
             host: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - run: git clone https://github.com/pact-foundation/pact-reference.git
+      - uses: actions/checkout@v2      
       - name: Test on ${{ matrix.os.name }}
         uses: cross-platform-actions/action@v0.10.0
         with:
@@ -58,6 +32,137 @@ jobs:
             ls -lah
             whoami
             env | sort
-            curl https://sh.rustup.rs -sSf | sh -s -- -y
-            cd pact-reference/rust/pact_ffi
-            cargo build
+            wget -O - https://github.com/YOU54F/pact-reference/releases/download/pact_mock_server_cli-v1.0.3/pact_mock_server_cli-x86_64-unknown-netbsd.gz | gunzip -c > pact_mock_server_cli \
+                && chmod +x pact_mock_server_cli
+            ls -lah
+            pact_mock_server_cli --version
+            pact_mock_server_cli --help
+
+  pact_verifier_cli:
+    runs-on: ${{ matrix.os.host }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - name: netbsd
+            architecture: x86-64
+            version: '9.2'
+            host: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2      
+      - name: Test on ${{ matrix.os.name }}
+        uses: cross-platform-actions/action@v0.10.0
+        with:
+          operating_system: ${{ matrix.os.name }}
+          architecture: ${{ matrix.os.architecture }}
+          version: ${{ matrix.os.version }}
+          shell: bash
+          memory: 5G
+          cpu_count: 4
+          run: |
+            uname -a
+            echo $SHELL
+            pwd
+            ls -lah
+            whoami
+            env | sort
+            wget -O - https://github.com/YOU54F/pact-reference/releases/download/pact_verifier_cli-v0.10.9/pact_verifier_cli-x86_64-unknown-netbsd.gz | gunzip -c > pact_verifier_cli \
+                && chmod +x pact_verifier_cli
+            ls -lah
+            pact_verifier_cli --version
+            pact_verifier_cli --help
+
+
+
+  # test:
+  #   runs-on: ${{ matrix.os.host }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os:
+  #         # - name: freebsd
+  #         #   architecture: x86-64
+  #         #   version: '13.1'
+  #         #   host: macos-12
+
+  #         - name: openbsd
+  #           architecture: x86-64
+  #           version: '7.3'
+  #           host: macos-12
+
+  #         # - name: openbsd
+  #         #   architecture: arm64
+  #         #   version: '7.3'
+  #         #   host: macos-12
+
+  #         # - name: openbsd
+  #         #   architecture: x86-64
+  #         #   version: '7.3'
+  #         #   host: ubuntu-latest
+
+  #         - name: openbsd
+  #           architecture: arm64
+  #           version: '7.3'
+  #           host: ubuntu-latest
+
+  #         # - name: netbsd
+  #         #   architecture: x86-64
+  #         #   version: '9.2'
+  #         #   host: ubuntu-latest
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - run: git clone https://github.com/pact-foundation/pact-reference.git
+  #     - name: Test on ${{ matrix.os.name }}
+  #       uses: cross-platform-actions/action@v0.10.0
+  #       with:
+  #         operating_system: ${{ matrix.os.name }}
+  #         architecture: ${{ matrix.os.architecture }}
+  #         version: ${{ matrix.os.version }}
+  #         shell: bash
+  #         memory: 5G
+  #         cpu_count: 4
+  #         run: |
+  #           uname -a
+  #           echo $SHELL
+  #           pwd
+  #           ls -lah
+  #           whoami
+  #           env | sort
+  #           curl https://sh.rustup.rs -sSf | sh -s -- -y
+  #           cd pact-reference/rust/pact_ffi
+  #           cargo build
+
+          
+  # test:
+  #   runs-on: ${{ matrix.os.host }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [openbsd-7.3,openbsd-7.2,]
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - run: git clone https://github.com/pact-foundation/pact-reference.git
+
+  #     runs-on: macos-12
+  #     steps:
+  #     - name: Bootstrap OpenBSD
+  #       uses: mario-campos/emulate@v1
+  #       with:
+  #         operating-system: openbsd-latest
+  #     - name: Build
+  #       run: |
+  #         uname -a
+  #         echo $SHELL
+  #         pwd
+  #         ls -lah
+  #         whoami
+  #         env | sort
+  #         curl https://sh.rustup.rs -sSf | sh -s -- -y
+  #         cd pact-reference/rust/pact_ffi
+  #         cargo build
+        
+
+
+
