@@ -11,16 +11,6 @@ jobs:
         msystem: CLANGARM64
     - shell: msys2 {0}
       run: |   
-        pacman -Sy mingw-w64-clang-x86_64-ruby
+        echo yes || pacman -S --no-confirm mingw-w64-clang-x86_64-ruby
         /clang64/bin/ruby --version
-        # pacman -Sy mingw-w64-clang-aarch64-clang
-        # pacman -Sy mingw-w64-clang-aarch64-autotools
-        # pacman -Sy mingw-w64-clang-aarch64-doxygen
-        # pacman -Sy mingw-w64-clang-aarch64-graphviz
-        # pacman -Sy mingw-w64-clang-aarch64-gdbm
-        # pacman -Sy mingw-w64-clang-aarch64-libyaml
-        # pacman -Sy mingw-w64-clang-aarch64-libffi
-        # pacman -Sy mingw-w64-clang-aarch64-pdcurses
-        # pacman -Sy mingw-w64-clang-aarch64-openssl
-        # pacman -Sy mingw-w64-clang-aarch64-gmp
-        # pacman -Sy mingw-w64-clang-aarch64-tk
+        ls /clangarm64
