@@ -14,6 +14,7 @@ jobs:
         # echo yes | pacman -S mingw-w64-clang-x86_64-ruby
         # /clang64/bin/ruby --version
         ls /clangarm64
+        echo yes | pacman -S git
         git clone https://github.com/YOU54F/rubyinstaller2-packages.git
         cd rubyinstaller2-packages
         cd mingw-w64-ruby32
