@@ -14,20 +14,21 @@ jobs:
         # echo yes | pacman -S mingw-w64-clang-x86_64-ruby
         # /clang64/bin/ruby --version
         ls /clangarm64
-        echo yes | pacman -S git \
-                    mingw-w64-clang-aarch64-clang
-                    # mingw-w64-clang-aarch64-cc
-                    # mingw-w64-clang-aarch64-autotools
-                    # mingw-w64-clang-aarch64-doxygen
-                    # mingw-w64-clang-aarch64-graphviz
-                    # ingw-w64-clang-aarch64-gcc-libs
-                    # mingw-w64-clang-aarch64-gdbm
-                    # mingw-w64-clang-aarch64-libyaml
-                    # mingw-w64-clang-aarch64-libffi
-                    # mingw-w64-clang-aarch64-pdcurses
-                    # mingw-w64-clang-aarch64-openssl
-                    # mingw-w64-clang-aarch64-gmp
-                    # mingw-w64-clang-aarch64-tk
+        echo yes | pacman -S git
+        echo yes | pactnan -S mingw-w64-clang-aarch64-clang
+        echo yes | pactnan -S mingw-w64-clang-aarch64-llvm
+        echo yes | pactnan -S mingw-w64-clang-aarch64-cc
+        echo yes | pactnan -S mingw-w64-clang-aarch64-autotools
+        echo yes | pactnan -S mingw-w64-clang-aarch64-doxygen
+        echo yes | pactnan -S mingw-w64-clang-aarch64-graphviz
+        echo yes | pactnan -S ingw-w64-clang-aarch64-gcc-libs
+        echo yes | pactnan -S mingw-w64-clang-aarch64-gdbm
+        echo yes | pactnan -S mingw-w64-clang-aarch64-libyaml
+        echo yes | pactnan -S mingw-w64-clang-aarch64-libffi
+        echo yes | pactnan -S mingw-w64-clang-aarch64-pdcurses
+        echo yes | pactnan -S mingw-w64-clang-aarch64-openssl
+        echo yes | pactnan -S mingw-w64-clang-aarch64-gmp
+        echo yes | pactnan -S mingw-w64-clang-aarch64-tk
         git clone https://github.com/YOU54F/rubyinstaller2-packages.git
         cd rubyinstaller2-packages
         cd mingw-w64-ruby32
