@@ -11,6 +11,6 @@ jobs:
         msystem: CLANGARM64
     - shell: msys2 {0}
       run: |   
-        echo yes || pacman -S --no-confirm mingw-w64-clang-x86_64-ruby
+        echo yes | pacman -S --no-confirm mingw-w64-clang-x86_64-ruby
         /clang64/bin/ruby --version
         ls /clangarm64
